@@ -1,0 +1,11 @@
+main: com.obscuritygames.diceroll.Main
+name: DiceRoll
+version: 1.0
+author: piekiller
+description: A diceroll program to roll a die of a custom size
+commands:
+  roll:
+    description: roll a die
+    usage: /roll [number of sides]
+    permission: diceroll.roll
+    permission-message: You don't have the diceroll.roll permission
