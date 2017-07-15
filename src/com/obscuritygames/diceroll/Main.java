@@ -21,8 +21,8 @@ public class Main extends JavaPlugin {
 			Command command,
 			String label,
 			String[] args) {
-		if(command.getName().equalsIgnoreCase("roll")) {
-			sender.sendMessage("You ran /roll!");
+		if(command.getName().equalsIgnoreCase("roll") && args.length == 1) {
+			sender.sendMessage("You ran /roll now");
 			return true;
 		}
 		return false;
