@@ -21,10 +21,19 @@ public class Main extends JavaPlugin {
 			Command command,
 			String label,
 			String[] args) {
-		if(command.getName().equalsIgnoreCase("roll") && args.length == 1) {
-			sender.sendMessage("You ran /roll now");
+		if(command.getName().equalsIgnoreCase("roll") && args.length == 1 && isInt(args[0])) {
+			sender.sendMessage("You ran /roll with number of sides " + args[0] + " number of args: " + args.length + " Is int: " + isInt(args[0]));
 			return true;
 		}
 		return false;
+	}
+	
+	public static boolean isInt(String s) {
+	    try {
+	        Integer.parseInt(s);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 }
