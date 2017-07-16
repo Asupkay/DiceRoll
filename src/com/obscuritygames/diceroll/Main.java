@@ -38,7 +38,7 @@ public class Main extends JavaPlugin {
 				int randomRoll = randGen.nextInt(sides) + 1;
 				
 				//Compose a message
-				String message = sender.getName() + "rolled and got " + randomRoll + " out of " + sides;
+				String message = sender.getName() + " rolled and got " + randomRoll + " out of " + sides;
 				
 				//Broadcast the whole message to the server
 				Bukkit.broadcastMessage(ChatColor.DARK_RED + message);
