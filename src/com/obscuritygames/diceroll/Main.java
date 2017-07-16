@@ -26,47 +26,29 @@ public class Main extends JavaPlugin {
 			Command command,
 			String label,
 			String[] args) {
-		//Check to see if the command is /roll and has one argument
+		
+		//Check to see if the command is /roll and has one or two arguments
 		if(command.getName().equalsIgnoreCase("roll") && args.length >= 1 && args.length <= 2) {
-			//Make sure that the argument for the number of sides of /roll is an integer
-			if(!isInt(args[0])) {
-				//If the argument is not an int tell them
-				sender.sendMessage("The arguments of /roll [number of size] (number of rolls) must be a number");
+			
+			//Check the arguments if there is an error return true
+			if(checkRollArgs(sender, args)) {
 				return true;
 			}
 			
+			//Initialize the number of dice and the message
 			int numberOfDice = 1;
 			String message = "";
 			
 			//Get the number of sides from the argument
 			int sides = Integer.parseInt(args[0]);
-			if(sides < 2) {
-				message += "There must be more than 1 side on the dice. ";
-			}
 			
-			//If the number of arguments is 1 roll one die if it is 2 make the number of dice the second arg
+			//If the number of arguments is 2 make the number of dice the second arg
 			if(args.length == 2) {
-				if(isInt(args[1])) {
-					numberOfDice = Integer.parseInt(args[1]);
-					
-					if(numberOfDice < 1) {
-						message += "There must be atleast 1 die. ";
-					}
-					
-				} else {
-					//If the second argument is not an int exit the program
-					message += "The arguments of /roll [number of size] (number of rolls) must be a number. ";
-				}
-			}
-				
-			//If an error was accumilated spit them out and exit
-			if(!message.equals("")) {
-				sender.sendMessage(message);
-				return true;
+				numberOfDice = Integer.parseInt(args[1]);
 			}
 			
 				
-			//Make a random number generator and generate a random roll
+			//Make a random number generator
 			Random randGen = new Random();
 			
 			//Create an aggregator for the totalRoll
@@ -108,4 +90,54 @@ public class Main extends JavaPlugin {
 	    return true;
 	}
 	
+	//Check all the arguments to make sure they comply with roll
+	private boolean checkRollArgs(CommandSender sender, String[] args) {
+		String errorMessage = "";
+		boolean isError = false;
+		
+		//Check if the first argument is an integer
+		if(isInt(args[0])) {
+			
+			//Get the sides from the argument
+			int sides = Integer.parseInt(args[0]);
+			
+			//Check that the number of sides makes sense
+			if(sides < 2) {
+				errorMessage += "There must be more than 1 side on the dice. ";
+				isError = true;
+			}
+		} else {
+			errorMessage += "The arguments of /roll [number of size] (number of rolls) must be a number ";
+			isError = true;
+		}
+		
+
+		//If is has two arguments
+		if(args.length == 2) {
+			//Make sure that the second argument is an int
+			if(isInt(args[1])) {
+				
+				//Get the number of dice from the argument
+				int numberOfDice = Integer.parseInt(args[1]);
+				
+				//Check that the number of dice makes sense
+				if(numberOfDice < 1) {
+					errorMessage += "There must be atleast 1 die. ";
+					isError = true;
+				}
+				
+			} else {
+				//If the second argument is not an int exit the program
+				errorMessage += "The arguments of /roll [number of size] (number of rolls) must be a number. ";
+				isError = true;
+			}
+		}
+		
+		//If there was an error spit it out
+		if(isError) {
+			sender.sendMessage(errorMessage);
+		}
+		
+		return isError;
+	}
 }
