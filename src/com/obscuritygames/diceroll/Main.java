@@ -60,12 +60,12 @@ public class Main extends JavaPlugin {
 			}
 			
 			//Compose a message
-			message = ChatColor.DARK_RED  + sender.getName() + " rolled " + numberOfDice + "die and got " + totalRoll + " out of " + sides * numberOfDice;
+			message = ChatColor.DARK_GRAY  + sender.getName() + " rolled " + numberOfDice + " die and got " + totalRoll + " out of " + sides * numberOfDice;
 			
 			//If the random roll is a critical add some flavor text
 			if(totalRoll == numberOfDice || totalRoll == numberOfDice * sides) {
 				if(totalRoll == numberOfDice) {
-					message = message  + ChatColor.BLACK + " Critical Fail!";
+					message = message + ChatColor.DARK_RED + " Critical Fail!";
 				} else {
 					message = message + ChatColor.DARK_BLUE + " Critical Success!";
 				}
