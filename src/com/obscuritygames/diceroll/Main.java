@@ -27,22 +27,44 @@ public class Main extends JavaPlugin {
 			String label,
 			String[] args) {
 		//Check to see if the command is /roll and has one argument
-		if(command.getName().equalsIgnoreCase("roll") && args.length == 1) {
+		if(command.getName().equalsIgnoreCase("roll") && args.length >= 1 && args.length <= 2) {
 			//Make sure that the argument for the number of sides of /roll is an integer
 			if(isInt(args[0])) {
+				
+				int numberOfDice;
+				
+				if(args.length == 1) {
+					numberOfDice = 1;
+				} else {
+					if(isInt(args[1])) {
+						numberOfDice = Integer.parseInt(args[1]);
+					} else {
+						sender.sendMessage("The arguments of /roll [number of size] (number of rolls) must be a number");
+						return true;
+					}
+				}
+				
+				
 				//Get the number of sides from the argument
 				int sides = Integer.parseInt(args[0]);
 				
 				//Make a random number generator and generate a random roll
 				Random randGen = new Random();
-				int randomRoll = randGen.nextInt(sides) + 1;
+				
+				int totalRoll = 0;
+				
+				
+				for(int i = 0; i < numberOfDice; i++) {
+					int randomRoll = randGen.nextInt(sides) + 1;
+					totalRoll += randomRoll;
+				}
 				
 				//Compose a message
-				String message = ChatColor.DARK_RED  + sender.getName() + " rolled and got " + randomRoll + " out of " + sides;
+				String message = ChatColor.DARK_RED  + sender.getName() + " rolled " + numberOfDice + "die and got " + totalRoll + " out of " + sides * numberOfDice;
 				
 				//If the random roll is a critical add some flavor text
-				if(randomRoll == 1 || randomRoll == 20) {
-					if(randomRoll == 1) {
+				if(totalRoll == numberOfDice || totalRoll == numberOfDice * sides) {
+					if(totalRoll == numberOfDice) {
 						message = message  + ChatColor.BLACK + " Critical Fail!";
 					} else {
 						message = message + ChatColor.DARK_BLUE + " Critical Success!";
@@ -51,10 +73,11 @@ public class Main extends JavaPlugin {
 				
 				//Broadcast the whole message to the server
 				Bukkit.broadcastMessage(message);
+				
 				return true;
 			} else {
 				//If the argument is not an int tell them
-				sender.sendMessage("The argument of /roll [number of size] must be a number");
+				sender.sendMessage("The arguments of /roll [number of size] (number of rolls) must be a number");
 				return true;
 			}
 		}

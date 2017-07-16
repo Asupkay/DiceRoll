@@ -6,6 +6,6 @@ description: A diceroll program to roll a die of a custom size
 commands:
   roll:
     description: roll a die
-    usage: /roll [number of sides]
+    usage: /roll [number of sides] (number of dice)
     permission: diceroll.roll
     permission-message: You don't have the diceroll.roll permission
