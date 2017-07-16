@@ -33,12 +33,14 @@ public class Main extends JavaPlugin {
 				
 				int numberOfDice;
 				
+				//If the number of arguments is 1 roll one die if it is 2 make the number of dice the second arg
 				if(args.length == 1) {
 					numberOfDice = 1;
 				} else {
 					if(isInt(args[1])) {
 						numberOfDice = Integer.parseInt(args[1]);
 					} else {
+						//If the second argument is not an int exit the program
 						sender.sendMessage("The arguments of /roll [number of size] (number of rolls) must be a number");
 						return true;
 					}
@@ -51,9 +53,10 @@ public class Main extends JavaPlugin {
 				//Make a random number generator and generate a random roll
 				Random randGen = new Random();
 				
+				//Create an agregator for the totalRoll
 				int totalRoll = 0;
 				
-				
+				//Roll all the random dice and tally them up
 				for(int i = 0; i < numberOfDice; i++) {
 					int randomRoll = randGen.nextInt(sides) + 1;
 					totalRoll += randomRoll;
