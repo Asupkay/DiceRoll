@@ -47,7 +47,6 @@ public class Main extends JavaPlugin {
 				numberOfDice = Integer.parseInt(args[1]);
 			}
 			
-				
 			//Make a random number generator
 			Random randGen = new Random();
 			
