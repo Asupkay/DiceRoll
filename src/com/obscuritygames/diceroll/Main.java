@@ -38,10 +38,19 @@ public class Main extends JavaPlugin {
 				int randomRoll = randGen.nextInt(sides) + 1;
 				
 				//Compose a message
-				String message = sender.getName() + " rolled and got " + randomRoll + " out of " + sides;
+				String message = ChatColor.DARK_RED  + sender.getName() + " rolled and got " + randomRoll + " out of " + sides;
+				
+				//If the random roll is a critical add some flavor text
+				if(randomRoll == 1 || randomRoll == 20) {
+					if(randomRoll == 1) {
+						message = message  + ChatColor.BLACK + " Critical Fail!";
+					} else {
+						message = message + ChatColor.DARK_BLUE + " Critical Success!";
+					}
+				}
 				
 				//Broadcast the whole message to the server
-				Bukkit.broadcastMessage(ChatColor.DARK_RED + message);
+				Bukkit.broadcastMessage(message);
 				return true;
 			} else {
 				//If the argument is not an int tell them
