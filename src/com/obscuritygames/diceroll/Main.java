@@ -7,13 +7,20 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandSender.Spigot;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 	
+	FileConfiguration config = getConfig();
+	
 	@Override
 	public void onEnable() {
-		
+		config.addDefault("colorOfGeneralRoll", "&8");
+		config.addDefault("colorOfCriticalFail", "&4");
+		config.addDefault("colorOfCriticalSuccess", "&1");
+		config.options().copyDefaults(true);
+		saveConfig();
 	}
 	
 	@Override
@@ -59,15 +66,18 @@ public class Main extends JavaPlugin {
 				totalRoll += randomRoll;
 			}
 			
+			String colorOfGeneralRoll = ChatColor.translateAlternateColorCodes('&', config.getString("colorOfGeneralRoll"));
+			String colorOfCritFail = ChatColor.translateAlternateColorCodes('&', config.getString("colorOfCriticalFail"));
+			String colorOfCritSuccess = ChatColor.translateAlternateColorCodes('&', config.getString("colorOfCriticalSuccess"));
 			//Compose a message
-			message = ChatColor.DARK_GRAY  + sender.getName() + " rolled " + numberOfDice + " die and got " + totalRoll + " out of " + sides * numberOfDice;
+			message = colorOfGeneralRoll  + sender.getName() + " rolled " + numberOfDice + " die and got " + totalRoll + " out of " + sides * numberOfDice;
 			
 			//If the random roll is a critical add some flavor text
 			if(totalRoll == numberOfDice || totalRoll == numberOfDice * sides) {
 				if(totalRoll == numberOfDice) {
-					message = message + ChatColor.DARK_RED + " Critical Fail!";
+					message = message + colorOfCritFail + " Critical Fail!";
 				} else {
-					message = message + ChatColor.DARK_BLUE + " Critical Success!";
+					message = message + colorOfCritSuccess + " Critical Success!";
 				}
 			}
 			
